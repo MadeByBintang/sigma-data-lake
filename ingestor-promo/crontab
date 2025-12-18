@@ -1,1 +1,1 @@
-*/10 * * * * /usr/local/bin/python3 /app/fetch_promo.py >> /var/log/cron.log 2>&1
+*/1 * * * * /usr/local/bin/python3 /app/fetch_promo.py >> /var/log/cron.log 2>&1
