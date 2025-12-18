@@ -1,0 +1,1 @@
+*/10 * * * * /usr/local/bin/python3 /app/fetch_weather.py >> /var/log/cron.log 2>&1

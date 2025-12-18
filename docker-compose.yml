@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: sigma-minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: admin123
+    volumes:
+      - minio_data:/data
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    container_name: sigma-mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: db_makan
+      MYSQL_ROOT_PASSWORD: ""
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    restart: unless-stopped
+
+  ingestor-weather:
+    build: ./ingestor
+    container_name: sigma-weather-ingestor
+    depends_on:
+      - minio
+    restart: unless-stopped
+
+  ingestor-promo:
+    build: ./ingestor-promo
+    container_name: sigma-promo-ingestor
+    depends_on:
+      - minio
+    restart: unless-stopped
+
+  ingestor-sql:
+    build: ./ingestor-sql
+    container_name: sigma-sql-ingestor
+    depends_on:
+      - minio
+      - mysql
+    env_file:
+      - .env
+    restart: unless-stopped
+
+volumes:
+  minio_data:
