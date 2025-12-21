@@ -7,4 +7,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["python", "process_decision.py"]
+CMD sh -c "python silver/weather_cleaned.py && python silver/sql_cleaned.py && python silver/promo_cleaned.py && python gold/decision_binding.py"

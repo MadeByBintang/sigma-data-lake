@@ -1,0 +1,16 @@
+id_warung,nama_warung,jenis_makanan,kategori,harga_rata2,jarak_menit,indoor,pedas,jam_buka,jam_tutup,rating_rasa,porsi,waktu_saji
+1,Wizzmie Banjarmasin,Mie Goreng,Mie,25000,2,TRUE,TRUE,10:00,00:00,4.8,Sedang,20
+2,Warung Makan Bu Darmi,Nasi Campur,Nasi,15000,5,TRUE,FALSE,09:00,21:30,4.5,Besar,5
+3,Warung Umar bin Khattab,Nasi Campur,Nasi,20000,5,TRUE,FALSE,09:00,16:00,3.8,Sedang,5
+4,Warung Usman bin Affan,Nasi Campur,Nasi,20000,5,TRUE,FALSE,06:00,23:00,3.5,Besar,5
+5,Warung Mama Yuyun,Nasi Campur,Nasi,15000,5,TRUE,FALSE,07:00,16:30,3.9,Sedang,5
+6,Warung Mie Ayam BPJS,Mie Ayam,Mie,20000,4,TRUE,FALSE,10:00,21:00,4.3,Sedang,10
+7,Warung Yuliriska,Nasi Ayam,Nasi,15000,6,TRUE,TRUE,10:00,20:00,4.5,Jumbo,10
+8,Mie Pocha,Mie Goreng,Mie,20000,5,TRUE,FALSE,11:00,22:00,4.2,Sedang,12
+9,Stand DJ,Lalapan,Nasi,20000,7,TRUE,TRUE,12:00,22:00,3.5,Sedang,15
+10,Rumah Makan Paijo,Lalapan,Nasi,20000,6,TRUE,TRUE,08:30,00:30,4.4,Besar,15
+11,Mie Ayam Surabaya Pak Jangkung,Mie Ayam,Mie,20000,6,TRUE,FALSE,11:00,21:30,4.5,Sedang,12
+12,Ayam Goreng Mas Anang,Lalapan,Nasi,20000,7,TRUE,TRUE,00:00,00:00,4.7,Jumbo,15
+13,Warung Bumbu Saji,Nasi Ayam,Nasi,15000,3,FALSE,FALSE,10:00,20:15,4.3,Sedang,10
+14,Ayam Bebek Ganje Mas Panji,Lalapan,Nasi,15000,4,TRUE,TRUE,00:00,00:00,4.6,Sedang,15
+15,Kantin Teknik,Nasi Campur,Nasi,15000,2,FALSE,FALSE,09:00,17:00,4.5,Sedang,18
