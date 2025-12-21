@@ -25,7 +25,7 @@ data = response.json()
 
 # filename
 timestamp = datetime.now().strftime("%Y%m%d_%H%M")
-filename = f"raw/weather/weather_{timestamp}.json"
+filename = f"bronze/weather/weather_raw_{timestamp}.json"
 
 # upload
 s3.put_object(

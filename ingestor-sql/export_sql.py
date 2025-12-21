@@ -58,7 +58,7 @@ df = pd.read_sql(query, engine)
 # SAVE TO MINIO
 # ==============================
 timestamp = datetime.now().strftime("%Y%m%d_%H%M")
-key = f"raw/sql/riwayat_makan_{timestamp}.csv"
+key = f"bronze/sql/riwayat_makan_raw_{timestamp}.csv"
 
 csv_buffer = StringIO()
 df.to_csv(csv_buffer, index=False)

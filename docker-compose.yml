@@ -51,6 +51,15 @@ services:
     env_file:
       - .env
     restart: unless-stopped
+    
+  processor-decision:
+    build: ./processor
+    container_name: sigma-processor-decision
+    depends_on:
+      - minio
+    env_file:
+      - .env
+    restart: "no"
 
 volumes:
   minio_data:
