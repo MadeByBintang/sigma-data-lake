@@ -6,29 +6,21 @@ import os
 from dotenv import load_dotenv
 from io import StringIO
 
-# ==============================
 # LOAD ENV
-# ==============================
 load_dotenv()
 
-# ==============================
 # MYSQL CONFIG
-# ==============================
 DB_HOST = os.getenv("DB_HOST")
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_NAME = os.getenv("DB_NAME")
 
-# ==============================
 # SQLALCHEMY ENGINE
-# ==============================
 engine = create_engine(
     f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
 )
 
-# ==============================
 # MINIO CONFIG
-# ==============================
 s3 = boto3.client(
     "s3",
     endpoint_url=os.getenv("MINIO_ENDPOINT"),
@@ -36,9 +28,7 @@ s3 = boto3.client(
     aws_secret_access_key=os.getenv("MINIO_SECRET_KEY"),
 )
 
-# ==============================
 # EXPORT QUERY
-# ==============================
 query = """
 SELECT
     tanggal,
@@ -54,9 +44,7 @@ FROM riwayat_makan
 
 df = pd.read_sql(query, engine)
 
-# ==============================
 # SAVE TO MINIO
-# ==============================
 timestamp = datetime.now().strftime("%Y%m%d_%H%M")
 key = f"bronze/sql/riwayat_makan_raw_{timestamp}.csv"
 

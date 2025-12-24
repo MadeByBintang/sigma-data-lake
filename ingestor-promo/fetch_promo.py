@@ -6,14 +6,10 @@ import os
 import boto3
 from dotenv import load_dotenv
 
-# ==============================
 # LOAD ENV
-# ==============================
 load_dotenv()
 
-# ==============================
 # KONFIGURASI
-# ==============================
 ROUTES = [
     {"platform": "GoJek", "url": "https://www.cuponation.co.id/gojek-voucher"},
     {"platform": "Grab", "url": "https://www.cuponation.co.id/grabfood"},
@@ -22,9 +18,7 @@ ROUTES = [
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 
-# ==============================
 # MINIO CLIENT
-# ==============================
 s3 = boto3.client(
     "s3",
     endpoint_url=os.getenv("MINIO_ENDPOINT"),
@@ -35,9 +29,7 @@ s3 = boto3.client(
 BUCKET = "sigma-lake"
 
 
-# ==============================
 # SCRAPE RAW
-# ==============================
 def scrape_raw(platform, url):
     response = requests.get(url, headers=HEADERS, timeout=15)
     soup = BeautifulSoup(response.text, "html.parser")
@@ -63,9 +55,7 @@ def scrape_raw(platform, url):
     return raw_items
 
 
-# ==============================
 # MAIN
-# ==============================
 def main():
     all_raw = []
 

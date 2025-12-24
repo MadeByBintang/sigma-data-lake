@@ -12,9 +12,7 @@ load_dotenv()
 st.set_page_config(page_title="SPK Cerdas: Makan Siang", layout="wide")
 
 
-# ===========================
 # 1. KONEKSI & LOAD DATA
-# ===========================
 @st.cache_resource
 def get_s3_client():
     endpoint = os.getenv("MINIO_ENDPOINT", "http://localhost:9000")
@@ -70,9 +68,7 @@ try:
 except:
     st.stop()
 
-# ===========================
 # 2. TRAINING MODEL
-# ===========================
 if "metode" in df_train.columns:
     df_train["is_takeaway"] = df_train["metode"].apply(
         lambda x: 1 if str(x).lower() == "takeaway" else 0
@@ -86,9 +82,7 @@ df_clean = df_train.dropna(subset=features + [target])
 model = DecisionTreeClassifier(max_depth=5, random_state=42)
 model.fit(df_clean[features], df_clean[target])
 
-# ===========================
 # 3. SIDEBAR & PREFERENSI USER
-# ===========================
 st.title("🍽️ SPK Next-Gen: Makan Apa?")
 
 # Context
@@ -143,9 +137,7 @@ else:  # Mode Seimbang
     max_jarak = st.sidebar.slider("Max Jarak (menit)", 1, 20, 10)
 
 
-# ===========================
 # 4. DECISION LOGIC (SCENARIO BASED)
-# ===========================
 results = []
 active_platforms = df_promo["platform"].unique().tolist() if not df_promo.empty else []
 promo_avail = 1 if active_platforms else 0
@@ -237,9 +229,7 @@ for idx, row in df_warung.iterrows():
         }
     )
 
-# ===========================
 # 5. TAMPILAN PRESCRIPTIVE
-# ===========================
 if results:
     df_res = pd.DataFrame(results).sort_values("Skor", ascending=False)
     best = df_res.iloc[0]

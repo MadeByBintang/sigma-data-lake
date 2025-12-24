@@ -5,9 +5,7 @@ import re
 from datetime import datetime
 from dotenv import load_dotenv
 
-# ==============================
 # LOAD ENV
-# ==============================
 load_dotenv()
 
 BUCKET = "sigma-lake"
@@ -18,9 +16,7 @@ VALID_PLATFORMS = {"GoJek", "Grab", "Shopee"}
 
 PROMO_KEYWORDS = ["diskon", "voucher", "cashback", "gratis", "ongkir", "promo", "off"]
 
-# ==============================
 # MINIO CLIENT
-# ==============================
 s3 = boto3.client(
     "s3",
     endpoint_url=os.getenv("MINIO_ENDPOINT"),
@@ -29,9 +25,7 @@ s3 = boto3.client(
 )
 
 
-# ==============================
 # CLEAN TEXT (TANPA LOWERCASE)
-# ==============================
 def clean_text(text: str) -> str:
     noise_patterns = [
         r"lihat penawaran",
@@ -60,9 +54,7 @@ def clean_text(text: str) -> str:
     return cleaned
 
 
-# ==============================
 # LOAD LATEST BRONZE
-# ==============================
 objects = s3.list_objects_v2(Bucket=BUCKET, Prefix=BRONZE_PREFIX).get("Contents", [])
 
 if not objects:
@@ -76,9 +68,7 @@ rows = raw.get("data", [])
 
 print(f"📥 RAW ROWS: {len(rows)}")
 
-# ==============================
 # CLEAN + FILTER (SILVER)
-# ==============================
 cleaned_rows = []
 
 for row in rows:
@@ -112,9 +102,7 @@ for row in rows:
         }
     )
 
-# ==============================
 # SAVE SILVER
-# ==============================
 timestamp = datetime.now().strftime("%Y%m%d_%H%M")
 output_key = f"{SILVER_PREFIX}promo_cleaned_{timestamp}.json"
 

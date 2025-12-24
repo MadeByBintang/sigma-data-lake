@@ -4,14 +4,10 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 
-# ==============================
 # LOAD ENV
-# ==============================
 load_dotenv()
 
-# ==============================
 # MINIO CLIENT
-# ==============================
 s3 = boto3.client(
     "s3",
     endpoint_url=os.getenv("MINIO_ENDPOINT"),
@@ -21,9 +17,7 @@ s3 = boto3.client(
 
 BUCKET = "sigma-lake"
 
-# ==============================
 # LOAD LATEST BRONZE WEATHER
-# ==============================
 objects = s3.list_objects_v2(Bucket=BUCKET, Prefix="bronze/weather/").get(
     "Contents", []
 )
@@ -35,9 +29,7 @@ latest_key = sorted(objects, key=lambda x: x["LastModified"], reverse=True)[0]["
 
 raw_weather = json.loads(s3.get_object(Bucket=BUCKET, Key=latest_key)["Body"].read())
 
-# ==============================
 # CLEAN & TRANSFORM (SILVER)
-# ==============================
 cleaned_weather = {
     "kota": raw_weather.get("name"),
     "kondisi": raw_weather["weather"][0]["main"],
@@ -47,9 +39,7 @@ cleaned_weather = {
     "timestamp": datetime.now().isoformat(),
 }
 
-# ==============================
 # SAVE TO SILVER
-# ==============================
 timestamp = datetime.now().strftime("%Y%m%d_%H%M")
 output_key = f"silver/weather_cleaned/weather_cleaned_{timestamp}.json"
 

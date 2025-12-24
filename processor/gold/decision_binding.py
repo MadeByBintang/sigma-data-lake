@@ -9,9 +9,7 @@ from sklearn.tree import DecisionTreeClassifier, export_text
 from sklearn.metrics import accuracy_score
 from dotenv import load_dotenv
 
-# ==============================
 # KONFIGURASI ENV & S3
-# ==============================
 load_dotenv()
 
 s3 = boto3.client(
@@ -24,9 +22,7 @@ s3 = boto3.client(
 BUCKET = "sigma-lake"
 
 
-# ==============================
 # HELPER: LOAD DATA
-# ==============================
 def load_dataset_from_prefix(prefix, file_type="json"):
     objects = s3.list_objects_v2(Bucket=BUCKET, Prefix=prefix).get("Contents", [])
     data_list = []
@@ -59,9 +55,7 @@ def load_dataset_from_prefix(prefix, file_type="json"):
         return pd.DataFrame(data_list)
 
 
-# ==============================
 # 1. LOAD DATA
-# ==============================
 print("📥 Loading Data Silver...")
 df_transaksi = load_dataset_from_prefix("silver/sql_cleaned/", "json")
 df_weather = load_dataset_from_prefix("silver/weather_cleaned/", "json")
@@ -70,9 +64,7 @@ df_promo = load_dataset_from_prefix("silver/promo_cleaned/", "json")
 if df_transaksi.empty:
     raise ValueError("❌ Data Transaksi Kosong!")
 
-# ==============================
 # 2. DATA PREPARATION (LOGIKA BARU)
-# ==============================
 print("🔗 Melakukan Data Binding (Cuaca Saat Ini)...")
 
 # --- A. Siapkan Transaksi ---
@@ -121,9 +113,7 @@ if not df_promo.empty:
 else:
     df_bound["jumlah_promo"] = 0
 
-# ==============================
 # 3. FEATURE ENGINEERING
-# ==============================
 print("🛠️ Membuat Fitur Keputusan...")
 
 HUJAN_KEYWORDS = ["rain", "drizzle", "thunderstorm", "storm"]
@@ -147,9 +137,7 @@ features = ["harga", "is_hujan", "suhu", "ada_promo", "is_lunch_time"]
 target = "kepuasan"
 df_final = df_bound.dropna(subset=[target] + ["harga"])
 
-# ==============================
 # 4. TRAINING MODEL
-# ==============================
 print(f"🤖 Melatih Model Decision Tree dengan {len(df_final)} data...")
 
 if len(df_final) < 5:
@@ -164,9 +152,7 @@ else:
 model = DecisionTreeClassifier(max_depth=4, criterion="entropy", random_state=42)
 model.fit(X_train, y_train)
 
-# ==============================
 # 5. EVALUASI & RULES
-# ==============================
 if X_test is not None:
     y_pred = model.predict(X_test)
     acc = accuracy_score(y_test, y_pred)
